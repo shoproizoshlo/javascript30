@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sound calculator</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+      crossorigin="anonymous"
+    />
+    <style>
+      body {
+        margin: auto;
+        font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+        font-size: 20px;
+      }
+
+      .keys {
+        display: flex;
+        flex: 1;
+        min-height: 20vh;
+        align-items: center;
+        justify-content: center;
+      }
+
+      kbd {
+        display: block;
+        font-size: 2em;
+      }
+
+      .key {
+        margin: 1rem;
+        padding: 1rem 0.5rem;
+        width: 10rem;
+        font-size: 1.5rem;
+        border: 0.2rem solid #823947;
+        border-radius: 0.5rem;
+        text-align: center;
+        color: white;
+        background: rgba(219, 236, 219, 0.4);
+        text-shadow: 0 0 0.5rem black;
+        transition: all 0.07s ease;
+      }
+
+      .sound {
+        font-size: 1.2rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1rem;
+        color: white;
+      }
+
+      .playing {
+        transform: scale(1.3);
+        border-color: #008635;
+        box-shadow: 0 0 1rem #008635;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="keys">
+        <div data-key="49" class="key">
+          <kbd>1</kbd>
+          <span class="sound">boom</span>
+        </div>
+        <div data-key="50" class="key">
+          <kbd>2</kbd>
+          <span class="sound">clap</span>
+        </div>
+        <div data-key="51" class="key">
+          <kbd>3</kbd>
+          <span class="sound">hihat</span>
+        </div>
+      </div>
+      <div class="keys">
+        <div data-key="52" class="key">
+          <kbd>4</kbd>
+          <span class="sound">kick</span>
+        </div>
+        <div data-key="53" class="key">
+          <kbd>5</kbd>
+          <span class="sound">openhat</span>
+        </div>
+        <div data-key="54" class="key">
+          <kbd>6</kbd>
+          <span class="sound">ride</span>
+        </div>
+      </div>
+      <div class="keys">
+        <div data-key="55" class="key">
+          <kbd>7</kbd>
+          <span class="sound">snare</span>
+        </div>
+        <div data-key="56" class="key">
+          <kbd>8</kbd>
+          <span class="sound">tink</span>
+        </div>
+        <div data-key="57" class="key">
+          <kbd>9</kbd>
+          <span class="sound">tom</span>
+        </div>
+      </div>
+    </div>
+
+    <audio data-key="49" src="sounds/boom.wav"></audio>
+    <audio data-key="50" src="sounds/clap.wav"></audio>
+    <audio data-key="51" src="sounds/hihat.wav"></audio>
+    <audio data-key="52" src="sounds/kick.wav"></audio>
+    <audio data-key="53" src="sounds/openhat.wav"></audio>
+    <audio data-key="54" src="sounds/ride.wav"></audio>
+    <audio data-key="55" src="sounds/snare.wav"></audio>
+    <audio data-key="56" src="sounds/tink.wav"></audio>
+    <audio data-key="57" src="sounds/tom.wav"></audio>
+
+    <script>
+      function playSound(e) {
+        let key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+        let audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+        if (!key) return; // stop the function from running all together
+        audio.currentTime = 0; // rewind to the start
+        audio.play();
+        key.classList.add("playing");
+      }
+
+      function removeTransition(e) {
+        if (e.propertyName !== "transform") return;
+        this.classList.remove("playing");
+      }
+
+      const keys = document.querySelectorAll(".key");
+      keys.forEach((key) =>
+        key.addEventListener("transitionend", removeTransition)
+      );
+
+      window.addEventListener("keydown", playSound);
+    </script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js"
+      integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

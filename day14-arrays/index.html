@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>JS Reference VS Copy</title>
+    <link rel="icon" href="https://fav.farm/🔥" />
+  </head>
+  <body>
+    <script>
+      // start with strings, numbers and booleans
+
+      // Let's say we have an array
+      const players = ["Wes", "Sarah", "Ryan", "Poppy"];
+
+      // and we want to make a copy of it.
+
+      // You might think we can just do something like this:
+      let team = players;
+
+      // however what happens when we update that array?
+      team[3] = "Alex";
+
+      // now here is the problem!
+      console.log(team);
+      // oh no - we have edited the original array too!
+      console.log(players);
+
+      // Why? It's because that is an array reference, not an array copy. They both point to the same array!
+
+      // So, how do we fix this? We take a copy instead!
+      let team2 = players.slice();
+      // one way
+
+      // or create a new array and concat the old one in
+      let team3 = [].concat(players);
+
+      // or use the new ES6 Spread
+      let team4 = [...players];
+
+      // now when we update it, the original one isn't changed
+      team4[3] = "Alex";
+      console.log(team4);
+      console.log(players);
+      // The same thing goes for objects, let's say we have a person object
+
+      // with Objects
+      const person = {
+        name: "Wes Bos",
+        age: 80,
+      };
+
+      // and think we make a copy:
+      let capitan = person;
+      capitan.age = 80;
+      console.log(person);
+
+      // how do we take a copy instead?
+      let capitan2 = Object.assign({}, person, { number: 9, age: 12 });
+      console.log(capitan2);
+      // We will hopefully soon see the object ...spread
+      // let capitan3 = { ...person };
+
+      // Things to note - this is only 1 level deep - both for Arrays and Objects. lodash has a cloneDeep method, but you should think twice before using it.
+      const someone = {
+        name: "Wes Bos",
+        age: 20,
+        social: {
+          twitter: "@wes",
+          facebook: "@wes",
+        },
+      };
+      const dev = Object.assign({}, someone);
+      const dev2 = JSON.parse(JSON.stringify(someone));
+    </script>
+  </body>
+</html>
